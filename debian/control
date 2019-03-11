@@ -1,4 +1,4 @@
-Source: gemini-linux-kernel-3.18
+Source: gemian-modular-kernel
 Section: kernel
 Priority: extra
 Maintainer: Adam Boardman <adamboardman@gmail.com>
@@ -13,14 +13,14 @@ Standards-Version: 3.9.8
 Vcs-Git: https://github.com/gemian/gemini-linux-kernel-3.18.git
 Homepage: https://www.kernel.org/
 
-Package: gemini-kernel-image-3.18
+Package: gemian-modular-kernel
 Architecture: any
 Multi-Arch: same
 Depends:
  mkbootimg,
  initramfs-tools-halium,
-Conflicts:
-Replaces:
+Conflicts: gemini-kernel-image-3.18
+Replaces: gemini-kernel-image-3.18
 Recommends:
-Description: Gemini Kernel
+Description: Gemian Kernel with Modules
  .
