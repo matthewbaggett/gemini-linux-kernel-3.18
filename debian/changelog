@@ -1,3 +1,9 @@
+gemian-modular-kernel (0.2) stretch; urgency=low
+
+  * Added modular support from Mithrandir42
+
+ -- Adam Boardman <adamboardman@gmail.com>  Mon, 11 Mar 2019 00:26:00 +0000
+
 gemini-linux-kernel-3.18 (0.1) stretch; urgency=low
 
   * Initial release
