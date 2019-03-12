@@ -1,6 +1,6 @@
 #!/bin/bash -e
 echo running depmod
-depmod
+depmod ||
 
 action="$1"
 oldversion="$2"
