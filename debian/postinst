@@ -60,4 +60,5 @@ else
   else
     echo "or: sudo dd if=/usr/share/kernel/linux-boot-stowaways-debian.img of=/dev/disk/by-partlabel/boot3"
   fi
+  echo "After writing the kernel image a reboot is necessary to use the new kernel."
 fi
