@@ -24,3 +24,14 @@ Replaces: gemini-kernel-image-3.18
 Recommends:
 Description: Gemian Kernel with Modules
  .
+
+Package: gemian-modular-kernel-headers
+Architecture: all
+Multi-Arch: foreign
+Depends:
+ gemian-modular-kernel (= ${binary:Version}),
+Conflicts:
+Replaces:
+Recommends:
+Description: Headers for Gemian Kernel with Modules
+ .

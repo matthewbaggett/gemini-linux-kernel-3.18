@@ -30,10 +30,19 @@ binary-arch:
 	install -p    -o root -g root -m 644 ../KERNEL_OUT/arch/arm64/boot/Image.gz-dtb debian/tmp/usr/share/kernel/Image.gz-dtb
 	install -p    -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
 	make O=../KERNEL_OUT INSTALL_MOD_PATH=$(CURDIR)/debian/tmp ARCH=arm64 modules_install
-	dpkg-gencontrol -DArchitecture=arm64
+	unlink debian/tmp/lib/modules/3.18.41+/source
+	unlink debian/tmp/lib/modules/3.18.41+/build
+	dpkg-gencontrol -DArchitecture=arm64 -pgemian-modular-kernel
 	dpkg --build debian/tmp ..
 
 binary-indep:
+	-rm -rf debian/tmp
+	install -p -d -o root -g root -m 755 debian/tmp
+	install -p -d -o root -g root -m 755 debian/tmp/DEBIAN
+	install -p -d -o root -g root -m 755 debian/tmp/usr/src/linux-headers-3.18
+	make O=../KERNEL_OUT INSTALL_HDR_PATH=$(CURDIR)/debian/tmp/usr/src/linux-headers-3.18 ARCH=arm64 headers_install
+	dpkg-gencontrol -pgemian-modular-kernel-headers
+	dpkg --build debian/tmp ..
 
 binary:         binary-arch binary-indep
 
