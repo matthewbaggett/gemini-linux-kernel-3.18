@@ -28,7 +28,7 @@ Package: gemian-modular-kernel-headers
 Architecture: all
 Multi-Arch: foreign
 Depends:
- gemian-modular-kernel (= ${binary:Version}),
+ gemian-modular-kernel,
 Conflicts:
 Replaces:
 Recommends:
