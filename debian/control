@@ -25,8 +25,8 @@ Description: Gemian Kernel with Modules
  .
 
 Package: gemian-modular-kernel-headers
-Architecture: any
-Multi-Arch: same
+Architecture: all
+Multi-Arch: foreign
 Depends:
  gemian-modular-kernel (= ${binary:Version}),
 Conflicts:
