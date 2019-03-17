@@ -32,6 +32,8 @@ binary-arch:
 	make O=../KERNEL_OUT INSTALL_MOD_PATH=$(CURDIR)/debian/tmp ARCH=arm64 modules_install
 	unlink debian/tmp/lib/modules/3.18.41*/source
 	unlink debian/tmp/lib/modules/3.18.41*/build
+	ln -s /usr/src/linux-headers-3.18 debian/tmp/lib/modules/build
+	mv debian/tmp/lib/modules/build debian/tmp/lib/modules/3.18.41*/
 	dpkg-gencontrol -DArchitecture=arm64 -pgemian-modular-kernel
 	dpkg --build debian/tmp ..
 
