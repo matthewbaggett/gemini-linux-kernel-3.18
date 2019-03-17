@@ -42,7 +42,10 @@ binary-indep:
 	install -p -d -o root -g root -m 755 debian/tmp
 	install -p -d -o root -g root -m 755 debian/tmp/DEBIAN
 	install -p -d -o root -g root -m 755 debian/tmp/usr/src/linux-headers-3.18
+	make O=$(CURDIR)/debian/tmp/usr/src/linux-headers-3.18 ARCH=arm64 gemini_modular_defconfig
+	make O=$(CURDIR)/debian/tmp/usr/src/linux-headers-3.18 ARCH=arm64 modules_prepare
 	make O=../KERNEL_OUT INSTALL_HDR_PATH=$(CURDIR)/debian/tmp/usr/src/linux-headers-3.18 ARCH=arm64 headers_install
+	cp ../KERNEL_OUT/Module.symvers $(CURDIR)/debian/tmp/usr/src/linux-headers-3.18/
 	dpkg-gencontrol -pgemian-modular-kernel-headers
 	dpkg --build debian/tmp ..
 
