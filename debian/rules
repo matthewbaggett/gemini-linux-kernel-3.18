@@ -30,8 +30,8 @@ binary-arch:
 	install -p    -o root -g root -m 644 ../KERNEL_OUT/arch/arm64/boot/Image.gz-dtb debian/tmp/usr/share/kernel/Image.gz-dtb
 	install -p    -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
 	make O=../KERNEL_OUT INSTALL_MOD_PATH=$(CURDIR)/debian/tmp ARCH=arm64 modules_install
-	unlink debian/tmp/lib/modules/3.18.41/source
-	unlink debian/tmp/lib/modules/3.18.41/build
+	unlink debian/tmp/lib/modules/3.18.41*/source
+	unlink debian/tmp/lib/modules/3.18.41*/build
 	dpkg-gencontrol -DArchitecture=arm64 -pgemian-modular-kernel
 	dpkg --build debian/tmp ..
 
