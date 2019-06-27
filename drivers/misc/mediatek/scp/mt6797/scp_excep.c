@@ -320,13 +320,15 @@ static unsigned int scp_crash_dump(MemoryDump *pMemoryDump)
 static void scp_prepare_aed(char *aed_str, struct scp_aed_cfg *aed)
 {
 	char *detail, *log;
-	u8 *phy, *ptr;
+	u8 *phy;
 	u32 log_size, phy_size;
 
 	pr_debug("scp_prepare_aed\n");
 
 	detail = vmalloc(SCP_AED_STR_LEN);
-	ptr = detail;
+	if (!detail)
+		return;
+
 	memset(detail, 0, SCP_AED_STR_LEN);
 	snprintf(detail, SCP_AED_STR_LEN, "%s\n", aed_str);
 	detail[SCP_AED_STR_LEN - 1] = '\0';
@@ -366,6 +368,9 @@ static void scp_prepare_aed_dump(char *aed_str, struct scp_aed_cfg *aed)
 	scp_aee_last_reg();
 
 	detail = vmalloc(SCP_AED_STR_LEN);
+	if (!detail)
+		return;
+
 	ptr = detail;
 	memset(detail, 0, SCP_AED_STR_LEN);
 	last_log = scp_get_last_log();
@@ -438,7 +443,7 @@ void scp_aed(scp_excep_id type)
 	if (type == EXCEP_RUNTIME)
 		type = (is_scp_ready()) ? EXCEP_RUNTIME : EXCEP_BOOTUP;
 
-		switch (type) {
+	switch (type) {
 		case EXCEP_LOAD_FIRMWARE:
 			scp_prepare_aed("scp firmware load exception", &aed);
 			break;

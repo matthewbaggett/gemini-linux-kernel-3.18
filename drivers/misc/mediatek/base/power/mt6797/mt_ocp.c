@@ -162,7 +162,7 @@ static void _mt_ocp_aee_init(void)
 #endif
 
 
-typedef struct OCP_OPT {
+struct OCP_OPT {
 	unsigned short ocp_cluster0_flag;
 	unsigned short ocp_cluster1_flag;
 	unsigned short ocp_cluster2_flag;
@@ -170,7 +170,7 @@ typedef struct OCP_OPT {
 	unsigned short ocp_cluster1_enable;
 	unsigned short ocp_cluster2_enable;
 	unsigned int ocp_cluster2_OCPAPBCFG24;
-} OCP_OPT;
+};
 
 static struct OCP_OPT ocp_opt = {
 	.ocp_cluster0_flag = 0,
@@ -182,14 +182,14 @@ static struct OCP_OPT ocp_opt = {
 	.ocp_cluster2_OCPAPBCFG24 = 0,
 };
 
-typedef struct DVFS_STAT {
+struct DVFS_STAT {
 	unsigned int Freq;
 	unsigned int Volt;
 	unsigned int Thermal;
-} DVFS_STAT;
+};
 
 
-typedef struct OCP_STAT {
+struct OCP_STAT {
 	unsigned int IntEnDis;
 	unsigned int IRQ1;
 	unsigned int IRQ0;
@@ -206,7 +206,7 @@ typedef struct OCP_STAT {
 	unsigned int CPU1RawLkg;
 	unsigned int CPU2RawLkg;
 	unsigned int CPU3RawLkg;
-} OCP_STAT;
+};
 
 static struct OCP_STAT ocp_status[3] = {
 [0] = {
@@ -635,10 +635,10 @@ if (GET_BITS_VAL_OCP(0:0, Temp) == 1) {
 		*Leakage = 127999;
 
 
-if (ocp_opt.ocp_cluster2_enable == 0)
-	goto Label;
-if ((cpu_online(8) == 0) && (cpu_online(9) == 0))
-	goto Label;
+	if (ocp_opt.ocp_cluster2_enable == 0)
+		goto Label;
+	if ((cpu_online(8) == 0) && (cpu_online(9) == 0))
+		goto Label;
 
 	/* CapTotAct:  Q8.12 -> integer  */
 	spin_lock(&reset_lock);
@@ -756,10 +756,10 @@ return 0;
 int BigOCPMAFAct(unsigned int *CapMAFAct)
 {
 
-if (ocp_read_field(OCPAPBSTATUS01, 0:0) == 1)
-	*CapMAFAct = (ocp_read_field(OCPAPBSTATUS03, 18:0) * 1000) >> 12; /* mA*/
-else
-	*CapMAFAct = 0x0;
+    if (ocp_read_field(OCPAPBSTATUS01, 0:0) == 1)
+	    *CapMAFAct = (ocp_read_field(OCPAPBSTATUS03, 18:0) * 1000) >> 12; /* mA*/
+    else
+	    *CapMAFAct = 0x0;
 
 	if (HW_API_DEBUG_ON)
 		ocp_info("ocp: big CapMAFAct=%d\n",  *CapMAFAct);
@@ -2823,11 +2823,11 @@ if (Reg_Debug_on) {
 	for (i = 0; i < 524 ; i += 4)
 		seq_printf(m, "Addr: 0x%x = %x\n", (MP0_OCP_IRQSTATE + i), ocp_read(MP0_OCP_IRQSTATE + i));
 
-		seq_printf(m, "Addr: 0x102217FC = %x\n", ocp_read(MP0_OCP_GENERAL_CTRL));
-		seq_printf(m, "Addr: 0x10221250 = %x\n", ocp_read(MP0_OCP_DBG_ACT_L));
-		seq_printf(m, "Addr: 0x10221254 = %x\n", ocp_read(MP0_OCP_DBG_ACT_H));
-		seq_printf(m, "Addr: 0x10221260 = %x\n", ocp_read(MP0_OCP_DBG_LKG_L));
-		seq_printf(m, "Addr: 0x10221264 = %x\n", ocp_read(MP0_OCP_DBG_LKG_H));
+    seq_printf(m, "Addr: 0x102217FC = %x\n", ocp_read(MP0_OCP_GENERAL_CTRL));
+	seq_printf(m, "Addr: 0x10221250 = %x\n", ocp_read(MP0_OCP_DBG_ACT_L));
+	seq_printf(m, "Addr: 0x10221254 = %x\n", ocp_read(MP0_OCP_DBG_ACT_H));
+	seq_printf(m, "Addr: 0x10221260 = %x\n", ocp_read(MP0_OCP_DBG_LKG_L));
+	seq_printf(m, "Addr: 0x10221264 = %x\n", ocp_read(MP0_OCP_DBG_LKG_H));
 }
 return 0;
 }
@@ -2972,11 +2972,11 @@ if (Reg_Debug_on) {
 	for (i = 0; i < 524; i += 4)
 		seq_printf(m, "Addr: 0x%x = %x\n", (MP1_OCP_IRQSTATE + i), ocp_read(MP1_OCP_IRQSTATE + i));
 
-		seq_printf(m, "Addr: 0x102237FC = %x\n", ocp_read(MP1_OCP_GENERAL_CTRL));
-		seq_printf(m, "Addr: 0x10223250 = %x\n", ocp_read(MP1_OCP_DBG_ACT_L));
-		seq_printf(m, "Addr: 0x10223254 = %x\n", ocp_read(MP1_OCP_DBG_ACT_H));
-		seq_printf(m, "Addr: 0x10223260 = %x\n", ocp_read(MP1_OCP_DBG_LKG_L));
-		seq_printf(m, "Addr: 0x10223264 = %x\n", ocp_read(MP1_OCP_DBG_LKG_H));
+	seq_printf(m, "Addr: 0x102237FC = %x\n", ocp_read(MP1_OCP_GENERAL_CTRL));
+	seq_printf(m, "Addr: 0x10223250 = %x\n", ocp_read(MP1_OCP_DBG_ACT_L));
+	seq_printf(m, "Addr: 0x10223254 = %x\n", ocp_read(MP1_OCP_DBG_ACT_H));
+	seq_printf(m, "Addr: 0x10223260 = %x\n", ocp_read(MP1_OCP_DBG_LKG_L));
+	seq_printf(m, "Addr: 0x10223264 = %x\n", ocp_read(MP1_OCP_DBG_LKG_H));
 }
 
 return 0;

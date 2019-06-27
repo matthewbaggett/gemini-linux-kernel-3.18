@@ -79,42 +79,45 @@ int led_code[ROM_CODE_MAX] = {
 //////////////////////////////////////////////////////////////////////////////////////////
 // PDN power control
 //////////////////////////////////////////////////////////////////////////////////////////
-struct pinctrl *aw9120ctrl = NULL;
-struct pinctrl_state *aw9120_pdn_high = NULL;
-struct pinctrl_state *aw9120_pdn_low = NULL;
+struct pinctrl *aw9120ctrl_m = NULL;
+struct pinctrl_state *aw9120_pdn_high_m = NULL;
+struct pinctrl_state *aw9120_pdn_low_m = NULL;
 
-int aw9120_gpio_init(struct platform_device *pdev)
+static int aw9120_gpio_init(struct platform_device *pdev)
 {
 	int ret = 0;
 
-	aw9120ctrl = devm_pinctrl_get(&pdev->dev);
-	if (IS_ERR(aw9120ctrl)) {
+        printk("%s enter.\n", __func__);
+	
+	aw9120ctrl_m = devm_pinctrl_get(&pdev->dev);
+	if (IS_ERR(aw9120ctrl_m)) {
 		dev_err(&pdev->dev, "Cannot find aw9120 pinctrl!");
-		ret = PTR_ERR(aw9120ctrl);
+		ret = PTR_ERR(aw9120ctrl_m);
 		printk("%s devm_pinctrl_get fail!\n", __func__);
+		return -1;
 	}
-	aw9120_pdn_high = pinctrl_lookup_state(aw9120ctrl, "aw9120_pdn_high");
-	if (IS_ERR(aw9120_pdn_high)) {
-		ret = PTR_ERR(aw9120_pdn_high);
+	aw9120_pdn_high_m = pinctrl_lookup_state(aw9120ctrl_m, "aw9120_pdn_high");
+	if (IS_ERR(aw9120_pdn_high_m)) {
+		ret = PTR_ERR(aw9120_pdn_high_m);
 		printk("%s : pinctrl err, aw9120_pdn_high\n", __func__);
 	}
 
-	aw9120_pdn_low = pinctrl_lookup_state(aw9120ctrl, "aw9120_pdn_low");
-	if (IS_ERR(aw9120_pdn_low)) {
-		ret = PTR_ERR(aw9120_pdn_low);
+	aw9120_pdn_low_m = pinctrl_lookup_state(aw9120ctrl_m, "aw9120_pdn_low");
+	if (IS_ERR(aw9120_pdn_low_m)) {
+		ret = PTR_ERR(aw9120_pdn_low_m);
 		printk("%s : pinctrl err, aw9120_pdn_low\n", __func__);
 	}
 
-	printk("%s success\n", __func__);
+	printk("%s success.--\n", __func__);
 	return ret;
 }
 
 static void aw9120_hw_on(void)
 {
 	printk("%s enter\n", __func__);
-	pinctrl_select_state(aw9120ctrl, aw9120_pdn_low);
+	pinctrl_select_state(aw9120ctrl_m, aw9120_pdn_low_m);
 	msleep(5);
-	pinctrl_select_state(aw9120ctrl, aw9120_pdn_high);
+	pinctrl_select_state(aw9120ctrl_m, aw9120_pdn_high_m);
 	msleep(5);
 	printk("%s out\n", __func__);
 }
@@ -123,7 +126,7 @@ static void aw9120_hw_on(void)
 static void aw9120_hw_off(void)
 {
 	printk("%s enter\n", __func__);
-	pinctrl_select_state(aw9120ctrl, aw9120_pdn_low);
+	pinctrl_select_state(aw9120ctrl_m, aw9120_pdn_low_m);
 	msleep(5);
 	printk("%s out\n", __func__);
 }
