@@ -194,7 +194,7 @@ static int hall_pdrv_probe(struct platform_device *pdev)
 	u32 ints1[2] = { 0, 0 };
 	struct device_node *node = NULL;
 
-	printk("%s,hall probe start!!!\n",__func__);
+	HALL_LOG("hall probe start!!!");
 	
 	fcoverPltFmDev = pdev;
 
@@ -239,18 +239,12 @@ static int hall_pdrv_probe(struct platform_device *pdev)
 	fcover_close_flag = gpio_get_value(hallgpiopin);
 
 	node = of_find_matching_node(node, hall_of_match);
-	printk("%s():find node->name = %s\n",__func__,node->name);
 	if (node) {
 		of_property_read_u32_array(node, "debounce", ints, ARRAY_SIZE(ints));
 		of_property_read_u32_array(node, "interrupts", ints1, ARRAY_SIZE(ints1));
-
 		hallgpiopin = ints[0];
 		halldebounce = ints[1];
 		hall_eint_type = ints1[1];
-		
-                printk("%s():hallgpiopin =%d, halldebounce=%d, hall_eint_type = %d\n",__func__,
-                        hallgpiopin,halldebounce,hall_eint_type);
-
 		gpio_set_debounce(hallgpiopin, halldebounce);
 		hall_irqnr = irq_of_parse_and_map(node, 0);
 		ret = request_irq(hall_irqnr, (irq_handler_t)hall_fcover_eint_handler, IRQF_TRIGGER_NONE, "hall-eint", NULL);
